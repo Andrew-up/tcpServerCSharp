@@ -17,7 +17,7 @@ namespace tcpServer
 
         static void Main(string[] args)
         {
-       
+
             Program program = new Program();
             program.createLogsFolder();
             string str_directory = Environment.CurrentDirectory.ToString();
@@ -43,7 +43,7 @@ namespace tcpServer
             }
             else
             {
-             //   Console.WriteLine(" NO CreateDirectory");
+                //   Console.WriteLine(" NO CreateDirectory");
             }
         }
 
@@ -54,24 +54,22 @@ namespace tcpServer
 
             try
             {
-                
+
                 Listener.Start();  // запускаем сервер
                 Console.WriteLine("Сервер запущен, ожидаю подключения.");
                 while (true)   // бесконечный цикл обслуживания клиентов
-            {
-                TcpClient client = Listener.AcceptTcpClient();  // ожидаем подключение клиента
-                string clientIpv4 = IPAddress.Parse(((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString()) + "";
-                
-                Thread t = new Thread(new ParameterizedThreadStart(clientConnect));
-                t.Start(client);
-                    
+                {
+                    TcpClient client = Listener.AcceptTcpClient();  // ожидаем подключение клиента
+                    string clientIpv4 = IPAddress.Parse(((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString()) + "";
+                    Thread t = new Thread(new ParameterizedThreadStart(clientConnect));
+                    t.Start(client);
 
-             }
+                }
             }
             catch (SocketException e)
             {
                 logger.Error("Связь с клиентом IP потеряна. Причина: " + e.Message);
-              
+
             }
             finally
             {
@@ -102,16 +100,13 @@ namespace tcpServer
                     logger.Debug("Поток ID: ({1}) - Сообщение от клиента Ip: {2} : {0}", data, Thread.CurrentThread.ManagedThreadId, clientIpv4);
                 }
                 logger.Debug("Поток ID: ({1}) - Клиент IP {0} отключён ", clientIpv4, Thread.CurrentThread.ManagedThreadId);
-           
-                   
-             
+
                 return;
 
             }
             catch (SocketException e)
             {
                 logger.Error("Связь с клиентом IP потеряна. Причина: " + e.Message);
-           
             }
 
             catch (Exception e)
