@@ -94,32 +94,29 @@ namespace tcpServer
             try
             {
                 string clientIpv4 = IPAddress.Parse(((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString()) + "";
-              //  Console.WriteLine("Поток ID: ({1}) - Подключён новый клиент: IP:  {0} ", clientIpv4, Thread.CurrentThread.ManagedThreadId);
                 logger.Debug("Поток ID: ({1}) - Подключён новый клиент: IP:  {0} ", clientIpv4, Thread.CurrentThread.ManagedThreadId);
                 while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
                 {
                     string hex = BitConverter.ToString(bytes);
                     data = Encoding.ASCII.GetString(bytes, 0, i);
-                  //  Console.WriteLine("Поток ID: ({1}) - Сообщение от клиента Ip: {2} : {0}", data, Thread.CurrentThread.ManagedThreadId, clientIpv4);
                     logger.Debug("Поток ID: ({1}) - Сообщение от клиента Ip: {2} : {0}", data, Thread.CurrentThread.ManagedThreadId, clientIpv4);
                 }
                 logger.Debug("Поток ID: ({1}) - Клиент IP {0} отключён ", clientIpv4, Thread.CurrentThread.ManagedThreadId);
            
                    
-               // Console.WriteLine("Поток ID: ({1}) - Клиент IP {0} отключён: ", clientIpv4, Thread.CurrentThread.ManagedThreadId);
+             
                 return;
 
             }
             catch (SocketException e)
             {
                 logger.Error("Связь с клиентом IP потеряна. Причина: " + e.Message);
-             //   Console.WriteLine("Связь с клиентом IP потеряна. Причина: " + e.Message);
+           
             }
 
             catch (Exception e)
             {
                 logger.Error("Связь с клиентом IP потеряна. Причина: " + e.Message);
-               // Console.WriteLine("Exception: {0}", e.ToString());
                 client.Close();
             }
         }
